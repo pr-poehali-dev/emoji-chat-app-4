@@ -1,0 +1,29 @@
+{
+  "tests": [
+    {
+      "name": "dialogs - без токена",
+      "method": "GET",
+      "path": "/?action=dialogs",
+      "expectedStatus": 401,
+      "expectedBody": {"error": "Не авторизован"},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "search - без токена",
+      "method": "GET",
+      "path": "/?action=search&q=test",
+      "expectedStatus": 401,
+      "expectedBody": {"error": "Не авторизован"},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "send - без токена",
+      "method": "POST",
+      "path": "/?action=send",
+      "body": {"text": "hi", "partner_id": 1},
+      "expectedStatus": 401,
+      "expectedBody": {"error": "Не авторизован"},
+      "bodyMatcher": "partial"
+    }
+  ]
+}
