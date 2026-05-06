@@ -53,7 +53,12 @@ const notifications = [
   { id: 5, user: "Иван", text: "упомянул тебя", time: "3 часа", icon: "AtSign", color: "text-green-400", bg: "bg-green-500/15" },
 ];
 
-export default function Index() {
+interface IndexProps {
+  user: { name: string; phone: string; username?: string };
+  onLogout: () => void;
+}
+
+export default function Index({ user, onLogout }: IndexProps) {
   const [active, setActive] = useState<Section>("home");
   const [activeChat, setActiveChat] = useState<number | null>(null);
   const [msgInput, setMsgInput] = useState("");
@@ -123,7 +128,7 @@ export default function Index() {
               <div>
                 <p className="text-white/40 text-xs mb-0.5">Добро пожаловать 👋</p>
                 <h1 className="text-2xl font-display font-black text-white">
-                  Привет, <span className="gradient-text">Алексей!</span>
+                  Привет, <span className="gradient-text">{user.name.split(" ")[0]}!</span>
                 </h1>
               </div>
               <button onClick={() => navigate("notifications")} className="relative w-10 h-10 glass rounded-2xl flex items-center justify-center">
@@ -550,18 +555,19 @@ export default function Index() {
               </div>
               <div className="absolute -bottom-8 left-5">
                 <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white font-display font-black text-3xl border-4 border-[#0a0a12]">
-                  А
+                  {user.name?.[0]?.toUpperCase() ?? "?"}
                 </div>
               </div>
             </div>
 
             <div className="px-5 pt-12 pb-6">
-              <h2 className="text-white font-display font-black text-2xl mb-0.5">Алексей Смирнов</h2>
-              <p className="text-white/40 text-sm mb-1">@alexsmirn</p>
+              <h2 className="text-white font-display font-black text-2xl mb-0.5">{user.name}</h2>
+              {user.username && <p className="text-white/40 text-sm mb-1">@{user.username}</p>}
+              <p className="text-white/40 text-sm mb-1">{user.phone}</p>
               <p className="text-white/60 text-sm mb-5">Привет! Я пользуюсь Pulse 🚀</p>
 
               <div className="grid grid-cols-3 gap-3 mb-6">
-                {[{ label: "Друзья", value: "89" }, { label: "Группы", value: "12" }, { label: "Каналы", value: "7" }].map((s, i) => (
+                {[{ label: "Друзья", value: "0" }, { label: "Группы", value: "0" }, { label: "Каналы", value: "0" }].map((s, i) => (
                   <div key={i} className="glass rounded-2xl p-3 text-center">
                     <div className="text-white font-display font-black text-xl gradient-text">{s.value}</div>
                     <div className="text-white/40 text-xs mt-0.5">{s.label}</div>
@@ -570,17 +576,21 @@ export default function Index() {
               </div>
 
               <div className="space-y-2">
-                {[
-                  { icon: "Phone", label: "+7 (999) 123-45-67" },
-                  { icon: "Mail", label: "alex@example.com" },
-                  { icon: "MapPin", label: "Москва, Россия" },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 p-3.5 glass rounded-2xl">
-                    <Icon name={item.icon as IconName} size={16} className="text-purple-400 flex-shrink-0" />
-                    <span className="text-white/70 text-sm">{item.label}</span>
-                  </div>
-                ))}
+                <div className="flex items-center gap-3 p-3.5 glass rounded-2xl">
+                  <Icon name="Phone" size={16} className="text-purple-400 flex-shrink-0" />
+                  <span className="text-white/70 text-sm">{user.phone}</span>
+                </div>
               </div>
+
+              <button
+                onClick={onLogout}
+                className="w-full mt-4 glass rounded-2xl p-4 flex items-center gap-3 border border-red-500/20 active:scale-[0.98] transition-all"
+              >
+                <div className="w-10 h-10 rounded-2xl bg-red-500/15 flex items-center justify-center">
+                  <Icon name="LogOut" size={18} className="text-red-400" />
+                </div>
+                <span className="text-red-400 font-medium text-sm">Выйти из аккаунта</span>
+              </button>
             </div>
           </div>
         )}
@@ -602,7 +612,6 @@ export default function Index() {
                 { icon: "Lock", label: "Конфиденциальность", desc: "Кто видит профиль", color: "text-green-400", bg: "bg-green-500/15" },
                 { icon: "Database", label: "Хранилище", desc: "Медиа и кэш", color: "text-orange-400", bg: "bg-orange-500/15" },
                 { icon: "HelpCircle", label: "Помощь", desc: "FAQ и поддержка", color: "text-blue-400", bg: "bg-blue-500/15" },
-                { icon: "LogOut", label: "Выйти", desc: "Завершить сессию", color: "text-red-400", bg: "bg-red-500/15" },
               ].map((item, i) => (
                 <button
                   key={i}

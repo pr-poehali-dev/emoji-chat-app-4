@@ -1,0 +1,30 @@
+{
+  "tests": [
+    {
+      "name": "send_otp - отправка кода",
+      "method": "POST",
+      "path": "/?action=send_otp",
+      "body": {"phone": "+79991234567"},
+      "expectedStatus": 200,
+      "expectedBody": {"ok": true},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "verify_otp - неверный код",
+      "method": "POST",
+      "path": "/?action=verify_otp",
+      "body": {"phone": "+79991234567", "otp": "0000"},
+      "expectedStatus": 400,
+      "expectedBody": {"error": "Неверный код"},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "get_me - без токена",
+      "method": "GET",
+      "path": "/?action=get_me",
+      "expectedStatus": 401,
+      "expectedBody": {"error": "Не авторизован"},
+      "bodyMatcher": "partial"
+    }
+  ]
+}
