@@ -157,7 +157,7 @@ export default function Auth({ onAuth }: AuthProps) {
         {step === "phone" && (
           <div className="animate-fade-in">
             <h2 className="text-white font-display font-bold text-2xl mb-2">Войти</h2>
-            <p className="text-white/40 text-sm mb-8">Введи номер телефона — пришлём код подтверждения</p>
+            <p className="text-white/40 text-sm mb-8">Введи номер — получишь код прямо в приложении, бесплатно</p>
 
             <div className="mb-4">
               <div className={`flex items-center gap-3 glass rounded-2xl px-4 py-4 border transition-colors ${error ? "border-red-500/50" : "border-white/8 focus-within:border-purple-500/50"}`}>
@@ -205,16 +205,16 @@ export default function Auth({ onAuth }: AuthProps) {
             </button>
 
             <h2 className="text-white font-display font-bold text-2xl mb-2">Введи код</h2>
-            <p className="text-white/40 text-sm mb-8">
-              Отправили 4-значный код на<br />
+            <p className="text-white/40 text-sm mb-6">
+              Код для входа с номера<br />
               <span className="text-white font-medium">{phone}</span>
             </p>
 
-            {/* Dev hint */}
+            {/* Код прямо в интерфейсе — бесплатно */}
             {devOtp && (
-              <div className="glass border border-purple-500/30 rounded-xl px-4 py-2.5 mb-6 flex items-center gap-2">
-                <Icon name="Info" size={14} className="text-purple-400 flex-shrink-0" />
-                <span className="text-purple-300 text-sm">Демо-код: <strong>{devOtp}</strong></span>
+              <div className="gradient-card glass border border-purple-500/30 rounded-2xl px-5 py-4 mb-6">
+                <p className="text-white/50 text-xs mb-1">Твой код для входа</p>
+                <p className="text-white font-display font-black text-4xl tracking-[0.2em]">{devOtp}</p>
               </div>
             )}
 
